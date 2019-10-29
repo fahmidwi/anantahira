@@ -70,6 +70,8 @@
           if ($this->session->userdata('level_akses') == 'anggota' || ($this->session->userdata('level_akses') == 'admin' && $this->input->get('user'))) {
             if ($this->session->userdata('level_akses') == 'anggota' && $this->session->userdata('kd_anggota') == 'false') {
               $this->load->view('backend/profileform.php');
+            }else if ($this->input->get('user') == 'admin') {
+              redirect('admin/home');
             }else if($edit == 'true'){
               $this->load->view('backend/profileform.php');
             }else{
@@ -77,6 +79,15 @@
             }
           }
         ?>
+        <footer class="footer">
+        <div class="row align-items-center justify-content-xl-between">
+          <div class="col-xl-6">
+            <div class="copyright text-center text-xl-left text-muted">
+              &copy; 2019
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   </div>
 

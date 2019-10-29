@@ -1,9 +1,36 @@
 //ANANTAHIRA
 Todo:
-  ☐ Login @started(19-09-29 12:49)
-  ☐ Auth Akses
+  ✔ Login @started(19-09-29 12:49) @done(19-10-11 14:34) @lasted(1w5d1h45m8s)
+  ✔ Auth Akses @done(19-10-11 14:34)
   ✔ kategori navigasi @done(19-09-30 11:20)
   ✔ more kategori @done(19-10-07 13:51)
   ✔ seach berita @started(19-10-07 13:51) @done(19-10-07 14:24) @lasted(33m44s)
 
   ✔ registrasi peserta @started(19-10-07 15:04) @done(19-10-09 09:15) @lasted(1d18h11m41s)
+
+  ✔ bug di url detail berita @done(19-10-14 09:13)
+  ✔ CRUD data @started(19-10-11 14:34) @done(19-10-28 15:28) @lasted(2w3d54m15s)
+  ✔ paginatiion di frontend @done(19-10-15 09:18)
+  ✔ notfound url @done(19-10-17 10:33)
+
+  ✔ Search keanggotaan @done(19-10-22 14:31)
+  ✔ Block anggota @done(19-10-22 14:00)
+  ✔ Anggota tambahkan NO AK @done(19-10-25 08:44)
+  ✔ CRUD Gallery @done(19-10-24 09:42)
+  ✔ resize image @done(19-10-28 15:28)
+  ☐ upload image Berita in ckeditor
+  
+
+  ✔ Navigasi di ganti @done(19-10-23 11:17)
+  
+  ✔ Admin bisa hapus/blok anggota @done(19-10-24 10:30)
+  ✔ Yang bisa upload cuma admin aja @done(19-10-24 10:30)
+  
+  ✔ Tambah NO AK : 06.001 - 06.300 @done(19-10-25 08:36)
+  ✔ Nomor tidak bisa double @done(19-10-25 08:36)
+  
+  ✔ Tambah galery semua anggota @done(19-10-28 15:28)
+  
+  ✔ Foto di perkecil ukuran max 1mb @done(19-10-28 15:28)
+
+  

@@ -11,7 +11,6 @@ class Home extends CI_Controller {
 
 	public function index()
 	{
-
 		if (!$this->session->userdata('status_log')) {
 			redirect('admin/login/logout');
 		}
@@ -32,6 +31,7 @@ class Home extends CI_Controller {
 		
 		if ($dataanggota->num_rows() > 0) {
 			$data['id_anggota'] = $dataanggota->row()->id_anggota;
+			$data['no_ak'] = $dataanggota->row()->no_ak;
 			$data['username'] = $dataanggota->row()->username;
 			$data['email'] = $dataanggota->row()->email;
 			$data['nama_lengkap'] = $dataanggota->row()->nama_lengkap;
@@ -52,6 +52,7 @@ class Home extends CI_Controller {
 			$data['kotakab'] = $dataanggota->row()->kotakab;
 			$data['nama_fungsi'] = $dataanggota->row()->nama_fungsi;
 		}else{
+			$data['no_ak'] = '';
 			$data['username'] = $this->session->userdata('username');
 			$data['email'] = $this->session->userdata('email');
 			$data['nama_lengkap'] = $this->session->userdata('nama');
@@ -73,6 +74,7 @@ class Home extends CI_Controller {
 		}
 
 		$data['fungsi'] = $this->Model_anantahira->getData('fungsi','id_fungsi')->result();
+		$data['datanoak'] = $this->Model_anantahira->getData('anggota','id_anggota')->result();
 
 		$this->load->view('backend/index',$data);
 	}
@@ -91,29 +93,20 @@ class Home extends CI_Controller {
 		echo json_encode($data);
 	}
 
-	public function ubah_profile()
+	public function cekNoak($noak)
 	{
-		$this->load->view('backend/form/ubah_profile');
-	}
-	public function view_profile()
-	{
-		$this->load->view('backend/data/view_profile');
-	}
-	public function berita()
-	{
-		$this->load->view('backend/data/berita');
-	}
-	public function kategori_berita()
-	{
-		$this->load->view('backend/data/kategori_berita');
-	}
-	public function fungsi()
-	{
-		$this->load->view('backend/data/fungsi');
-	}
-	public function data_admin()
-	{
-		$this->load->view('backend/data/admin');
+		$getnoak = $this->Model_anantahira->getWhere('anggota', array('no_ak' => $noak));
+		if ($getnoak->num_rows() == 1) {
+			echo json_encode(array(
+				'jum' => $getnoak->num_rows(),
+				'no_ak' => $getnoak->row()->no_ak
+			));
+		}else{
+			echo json_encode(array(
+				'jum' => $getnoak->num_rows(),
+				'no_ak' => ''
+			));
+		}
 	}
 
 	public function AddDataKeanggotaan()
@@ -121,6 +114,7 @@ class Home extends CI_Controller {
 		
 		$data = array(
 			'id_admin' => $this->session->userdata('id_admin'), 
+			'no_ak' => $this->input->post('no_ak'), 
 			'nama_lengkap' => $this->input->post('nama_lengkap'), 
 			'alamat' => $this->input->post('alamat'), 
 			'no_hp' => $this->input->post('no_hp'), 
@@ -161,6 +155,7 @@ class Home extends CI_Controller {
 
 		$data = array(
 			'id_admin' => $this->session->userdata('id_admin'), 
+			'no_ak' => $this->input->post('no_ak'), 
 			'nama_lengkap' => $this->input->post('nama_lengkap'), 
 			'alamat' => $this->input->post('alamat'), 
 			'no_hp' => $this->input->post('no_hp'), 
@@ -203,7 +198,7 @@ class Home extends CI_Controller {
 		$file 			= $_FILES[$name]['name'];
 		$pisah 			= explode(".",$file);
 		$ext 			= end($pisah);
-		$rename 		= date("YmdHis");
+		$rename 		= date("YmdHis") + 1;
 		$nama_file 		= $rename.".".$ext;
 
 		$config['upload_path']	 = './assets/backend/img';
@@ -214,9 +209,63 @@ class Home extends CI_Controller {
 		$this->upload->initialize($config);
 
 		if ($this->upload->do_upload($name)) {
-			return $nama_file = $config['file_name'];
+			$data = array('upload_data' => $this->upload->data());
+        
+      $this->resizeGambar($data['upload_data']['file_name']);
+			return $nama_file = $data['upload_data']['file_name'];
 		}else{
 			echo 'gagal upload foto, silahkan kembali';
+		}
+	}
+
+	public function resizeGambar($filename)
+  {
+    $config['image_library']='gd2';
+    $config['source_image']='./assets/backend/img/'.$filename;
+    $config['maintain_ratio']= TRUE;
+    $config['quality']= '45%';
+    $config['width']= 400;
+    $config['new_image']= './assets/backend/img/'.$filename;
+
+		$this->load->library('image_lib', $config);
+		$this->image_lib->initialize($config);
+    $this->image_lib->resize();
+    $this->image_lib->clear();
+  }
+
+	public function changepassword()
+	{
+		if (!$this->session->userdata('status_log')) {
+			redirect('admin/login/logout');
+		}
+
+		$this->load->view('backend/changepass');
+	}
+
+	public function cekoldpass()
+	{
+		$pass = md5($this->uri->segment(4));
+		$data = $this->Model_anantahira->getWhere('admin',array('password' => $pass, 'id_admin' => $this->session->userdata('id_admin')))->num_rows();
+		echo json_encode($data);
+	}
+
+	public function updatepass()
+	{
+		$id_admin = $this->uri->segment(4);
+		$data = array(
+			'password' => md5($this->input->post('newpass'))
+		);
+
+		$where = array(
+			'id_admin' => $id_admin
+		);
+
+		if ($this->Model_anantahira->update('admin',$data,$where)) {
+			$this->session->set_flashdata('success_edit','ya');
+			redirect('admin/home/changepassword');
+		}else{
+			$this->session->set_flashdata('gagal','tidak');
+			redirect('admin/home/changepassword');
 		}
 	}
 }

@@ -26,9 +26,15 @@ Class Model_anantahira extends CI_model{
     return $this->db->update($table,$data,$where);
   }
 
+  public function delete($tabel,$where)
+  {
+    return $this->db->delete($tabel,$where);
+  }
+
   public function getDataPage($table, $limit, $start,$id)
-  { 
-    $this->db->order_by($id,'DESC');
+  {
+    $urutan = ($id == 'no_ak') ? 'ASC' : 'DESC' ; 
+    $this->db->order_by($id,$urutan);
     return $this->db->get($table, $limit, $start);
   }
 
@@ -41,8 +47,7 @@ Class Model_anantahira extends CI_model{
 
   public function getBerita($mulai, $berenti)
   {
-
-    return $this->db->select('berita.*,kategori_berita.nama_kategori,admin.nama_lengkap')
+    return $this->db->select('berita.*,kategori_berita.*,admin.nama_lengkap')
                     ->from('berita')
                     ->join('kategori_berita','berita.id_kategori = kategori_berita.id_kategori')
                     ->join('admin','berita.id_admin = admin.id_admin')
@@ -51,21 +56,34 @@ Class Model_anantahira extends CI_model{
                     ->get();
   }
 
-  public function detailBerita($id)
+  public function detailBerita($id_berita, $uriberita)
   {
 
-    return $this->db->select('berita.*,kategori_berita.nama_kategori,admin.nama_lengkap')
+    return $this->db->select('berita.*,kategori_berita.*,admin.nama_lengkap')
                     ->from('berita')
                     ->join('kategori_berita','berita.id_kategori = kategori_berita.id_kategori')
                     ->join('admin','berita.id_admin = admin.id_admin')
-                    ->where(array('berita.id_berita' => $id))
+                    ->where(array('berita.id_berita' => $id_berita))
+                    ->like('berita.uriberita', $uriberita)
+                    ->get();
+  }
+
+  public function getJenisNews($jenis,$mulai,$perhal)
+  {
+    return $this->db->select('berita.*,kategori_berita.*,admin.nama_lengkap')
+                    ->from('berita')
+                    ->join('kategori_berita','berita.id_kategori = kategori_berita.id_kategori')
+                    ->join('admin','berita.id_admin = admin.id_admin')
+                    ->where(array('berita.jenis_berita' => $jenis))
+                    ->limit($perhal,$mulai)
+                    ->order_by('berita.id_berita','DESC')
                     ->get();
   }
 
   public function popularNews()
   {
 
-    return $this->db->select('berita.*,kategori_berita.nama_kategori,admin.nama_lengkap')
+    return $this->db->select('berita.*,kategori_berita.*,admin.nama_lengkap')
                     ->from('berita')
                     ->join('kategori_berita','berita.id_kategori = kategori_berita.id_kategori')
                     ->join('admin','berita.id_admin = admin.id_admin')
@@ -74,14 +92,26 @@ Class Model_anantahira extends CI_model{
                     ->get();
   }
 
-  public function NewsFromCat($nama_kategori,$mulai,$perhal)
+  public function monthPopulars()
   {
-
-    return $this->db->select('berita.*,kategori_berita.nama_kategori,admin.nama_lengkap')
+    return $this->db->select('berita.*,kategori_berita.*,admin.nama_lengkap')
                     ->from('berita')
                     ->join('kategori_berita','berita.id_kategori = kategori_berita.id_kategori')
                     ->join('admin','berita.id_admin = admin.id_admin')
-                    ->like('kategori_berita.nama_kategori', $nama_kategori)
+                    ->like('berita.create_date',date('Y-m'))
+                    ->limit(5,0)
+                    ->order_by('view','DESC')
+                    ->get();
+  }
+
+  public function NewsFromCat($id_kategori,$mulai,$perhal)
+  {
+
+    return $this->db->select('berita.*,kategori_berita.*,admin.nama_lengkap')
+                    ->from('berita')
+                    ->join('kategori_berita','berita.id_kategori = kategori_berita.id_kategori')
+                    ->join('admin','berita.id_admin = admin.id_admin')
+                    ->like('kategori_berita.id_kategori', $id_kategori)
                     ->limit($perhal,$mulai)
                     ->order_by('berita.id_berita','DESC')
                     ->get();
@@ -90,7 +120,7 @@ Class Model_anantahira extends CI_model{
   public function SeachAllNews($headnews,$mulai,$perhal)
   {
 
-    return $this->db->select('berita.*,kategori_berita.nama_kategori,admin.nama_lengkap')
+    return $this->db->select('berita.*,kategori_berita.*,admin.nama_lengkap')
                     ->from('berita')
                     ->join('kategori_berita','berita.id_kategori = kategori_berita.id_kategori')
                     ->join('admin','berita.id_admin = admin.id_admin')
@@ -116,6 +146,24 @@ Class Model_anantahira extends CI_model{
                 ->join('kotakab', 'anggota.id_kabkota = kotakab.id_kotakab')
                 ->join('fungsi', 'anggota.id_fungsi = fungsi.id_fungsi')
                 ->where(array('anggota.id_admin' => $id))
+                ->order_by('anggota.no_ak','DESC')
                 ->get();
+  }
+
+  public function searchAnggota($key)
+  {
+    $this->db->like('nama_lengkap',$key);
+    return $this->db->get('anggota');
+  }
+
+  public function getGallery($mulai,$perhal)
+  {
+
+    return $this->db->select('*')
+                    ->from('gallery')
+                    ->join('admin','gallery.id_admin = admin.id_admin')
+                    ->limit($perhal,$mulai)
+                    ->order_by('gallery.id_gallery','DESC')
+                    ->get();
   }
 }

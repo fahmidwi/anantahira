@@ -30,7 +30,7 @@
               <div class="text-center text-muted mb-4">
                 <small>Daftar akun anggota anantahira disini</small>
               </div>
-              <form role="form" action="<?php echo base_url('admin/login/prosesRegistrasi') ?>" method="POST">
+              <form role="form" action="<?php echo base_url('register/prosesRegistrasi') ?>" method="POST">
                 <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>"
                   value="<?=$this->security->get_csrf_hash();?>" style="display: none">
                 <div class="form-group mb-3">
@@ -46,39 +46,52 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" name="email" required placeholder="Email" type="email">
+                    <input class="form-control" name="email" required onChange="cekEmail()" id="email" placeholder="Email" type="email">
                   </div>
+                </div>
+                <div class="text-muted font-italic" id="emailused" style="display:none;"><small><span
+                      class="text-danger font-weight-700">email sudah
+                      digunakan</span></small><br><br>
                 </div>
                 <div class="form-group mb-3">
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
                     </div>
-                    <input class="form-control" name="username" required onKeyup="cekUsername()" placeholder="Username" type="Username" id="username" >
+                    <input class="form-control" name="username" required onChange="cekUsername()" placeholder="Username"
+                      type="Username" id="username">
                   </div>
                 </div>
-                <div class="text-muted font-italic" id="usernameused" style="display:none;"><small><span class="text-danger font-weight-700">username sudah
-                      digunakan</span></small></div><br>
-                <div class="form-group">
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                    </div>
-                    <input class="form-control" name="password" required id="password" onKeyup="cekPass()" placeholder="Password" type="password">
-                  </div>
+                <div class="text-muted font-italic" id="usernameused" style="display:none;"><small><span
+                      class="text-danger font-weight-700">username sudah
+                      digunakan</span></small><br><br>
                 </div>
                 <div class="form-group">
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" required id="konfirpass" onKeyup="cekPass()" placeholder="Konfirmasi Password " type="password">
+                    <input class="form-control" name="password" required id="password" onKeyup="cekPass()"
+                      placeholder="Password" type="password">
                   </div>
                 </div>
-                <div class="text-muted font-italic" id="wrongpass" style="display:none;"><small><span class="text-danger font-weight-700">password tidak
-                      sesuai</span></small></div>
-                <div class="text-muted font-italic" id="passcorrect" style="display:none;"><small><span class="text-success font-weight-700">password
-                      sesuai</span></small></div>
+                <div class="form-group">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                    </div>
+                    <input class="form-control" required id="konfirpass" onKeyup="cekPass()"
+                      placeholder="Konfirmasi Password " type="password">
+                  </div>
+                </div>
+                <div class="text-muted font-italic" id="wrongpass" style="display:none;"><small><span
+                      class="text-danger font-weight-700">password tidak
+                      sesuai</span></small><br><br>
+                </div>
+                <div class="text-muted font-italic" id="passcorrect" style="display:none;"><small><span
+                      class="text-success font-weight-700">password
+                      sesuai</span></small><br><br>
+                </div>
                 <br>
                 <div class="form-group">
                   <div class="g-recaptcha" data-sitekey="6LfQObwUAAAAAJwTadQ2w4-ghfhntyB_ozrEKXM8"></div>
@@ -102,55 +115,86 @@
   <script src="<?php echo base_url('lib/backend/js/argon-dashboard.min.js?v=1.1.0') ?>"></script>
   <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
-    window.TrackJS &&
-      TrackJS.install({
-        token: "ee6fab19c5a04ac1a32a645abde4613a",
-        application: "argon-dashboard-free"
-      });
-    const uri = '<?php echo base_url(); ?>';
-    cekPass = () => {
-      const pass = document.getElementById('password').value;
-      const konfirpass = document.getElementById('konfirpass').value;
+  window.TrackJS &&
+    TrackJS.install({
+      token: "ee6fab19c5a04ac1a32a645abde4613a",
+      application: "argon-dashboard-free"
+    });
+  const uri = '<?php echo base_url(); ?>';
+  cekPass = () => {
+    const pass = document.getElementById('password').value;
+    const konfirpass = document.getElementById('konfirpass').value;
 
-      if (pass == konfirpass) {
-        document.getElementById('passcorrect').style.display = 'inline';
-        document.getElementById('wrongpass').style.display = 'none';
+    if (pass == konfirpass) {
+      document.getElementById('passcorrect').style.display = 'inline';
+      document.getElementById('wrongpass').style.display = 'none';
+      document.getElementById('daftar').disabled = false;
+    } else {
+      document.getElementById('daftar').disabled = true;
+      document.getElementById('passcorrect').style.display = 'none';
+      document.getElementById('wrongpass').style.display = 'inline';
+    }
+
+  }
+
+  cekUsername = () => {
+    const username = document.getElementById('username').value;
+    getUsername(username);
+  }
+
+  getUsername = (username) => {
+    $.ajax({
+      type: 'GET',
+      url: uri + 'admin/login/cekusername/' + username,
+      dataType: 'JSON',
+      beforeSend: () => {
+        document.getElementById('usernameused').style.display = 'none';
         document.getElementById('daftar').disabled = false;
-      }else{
-        document.getElementById('daftar').disabled = true;
-        document.getElementById('passcorrect').style.display = 'none';
-        document.getElementById('wrongpass').style.display = 'inline';
-      }
+        document.getElementById('daftar').innerHTML = 'Cek username ...';
+      },
+      success: (res) => {
+        document.getElementById('daftar').innerHTML = 'Daftar';
 
-    }
-
-    cekUsername = () => {
-      const username = document.getElementById('username').value;
-      getUsername(username);  
-    }
-
-    getUsername = (username) => {
-      $.ajax({
-        type:'GET',
-        url:uri+'admin/login/cekusername/' + username,
-        dataType:'JSON',
-        beforeSend:() => {
+        if (res == 1) {
+          document.getElementById('daftar').disabled = true;
+          document.getElementById('usernameused').style.display = 'inline';
+        } else {
           document.getElementById('daftar').disabled = false;
-          document.getElementById('daftar').innerHTML = 'Cek username ...';
-        },
-        success:(res) => {
-          document.getElementById('daftar').innerHTML = 'Daftar';
-
-          if (res == 1) {
-            document.getElementById('daftar').disabled = true;
-            document.getElementById('usernameused').style.display = 'inline';
-          }else{
-            document.getElementById('daftar').disabled = false;
-          }
         }
-      })
-    }
+      }
+    })
+  }
 
+  cekEmail = () => {
+    const email = document.getElementById('email').value;
+    const split = email.split('@');
+    uriemail = split[0]+'-'+split[1];
+    getEmail(uriemail);
+  }
+
+  getEmail = (email) => {
+    $.ajax({
+      type: 'GET',
+      url: uri + 'admin/login/cekemail/' + email,
+      dataType: 'JSON',
+      beforeSend: () => {
+        document.getElementById('emailused').style.display = 'none';
+        document.getElementById('daftar').disabled = false;
+        document.getElementById('daftar').innerHTML = 'Cek username ...';
+      },
+      success: (res) => {
+        document.getElementById('daftar').innerHTML = 'Daftar';
+
+        if (res == 1) {
+          document.getElementById('daftar').disabled = true;
+          document.getElementById('emailused').style.display = 'inline';
+          console.log('used')
+        } else {
+          document.getElementById('daftar').disabled = false;
+        }
+      }
+    })
+  }
   </script>
 </body>
 

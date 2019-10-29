@@ -30,18 +30,40 @@
           <h6 class="heading-small text-muted mb-4">Informasi User</h6>
           <div class="pl-lg-4">
             <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-no_ak">NO AK</label>
+                  <select class="form-control form-control-alternative" name="no_ak" id="no_ak" required>
+                    <option value="" <?php ($no_ak == '') ? 'selected' : null; ?>>Pilih no ak</option>
+                    <?php for ($no=1; $no <= 300; $no++) { ?>
+                    <?php
+                      $f = '1000';
+                      $nofix = $f + $no;
+                      $nofix = '006'.substr($nofix,1,3);   
+                    ?>
+                    <?php if ($no_ak == $nofix) { ?>
+                    <option value="<?php echo $nofix; ?>" selected><?php echo $nofix; ?></option>
+                    <?php }else{ ?>
+                    <option value="<?php echo $nofix; ?>"><?php echo $nofix; ?></option>
+                    <?php } ?>
+                    <?php } ?>
+                  </select>
+                </div>
+                <p id="usednoak" style="color:red;display:none;"><i>No Ak sudah digunakan</i></p>
+              </div>
               <div class="col-lg-6">
                 <div class="form-group">
                   <label class="form-control-label" for="input-username">Username</label>
-                  <input type="text" id="input-username" name="username" required class="form-control form-control-alternative"
-                    placeholder="Username" value="<?php echo $username ?>">
+                  <input type="text" id="input-username" name="username" required
+                    class="form-control form-control-alternative" placeholder="Username"
+                    value="<?php echo $username ?>">
                 </div>
               </div>
               <div class="col-lg-6">
                 <div class="form-group">
                   <label class="form-control-label" for="input-email">Alamat Email</label>
-                  <input type="email" id="input-email" name="email" required class="form-control form-control-alternative"
-                    value="<?php echo $email ?>">
+                  <input type="email" id="input-email" name="email" required
+                    class="form-control form-control-alternative" value="<?php echo $email ?>">
                 </div>
               </div>
             </div>
@@ -57,8 +79,9 @@
               <div class="col-lg-6">
                 <div class="form-group">
                   <label class="form-control-label" for="input-last-name">Nomor HP</label>
-                  <input type="text" id="input-last-name" name="no_hp" required class="form-control form-control-alternative"
-                    placeholder="ex: 0812xxxxxxxx" value="<?php echo $no_hp ?>">
+                  <input type="text" id="input-last-name" name="no_hp" required
+                    class="form-control form-control-alternative" placeholder="ex: 0812xxxxxxxx"
+                    value="<?php echo $no_hp ?>">
                 </div>
               </div>
             </div>
@@ -85,21 +108,21 @@
                 <div class="form-group">
                   <label class="form-control-label" for="input-username">Foto Pribadi</label>
                   <input type="hidden" name="foto_pribadi" required value="<?php echo $foto_pribadi ?>">
-                  <input type="file" id="input-username" name="foto_pribadi" <?php ($stat == 'true') ? 'required' : null ?>
-                    class="form-control form-control-alternative">
+                  <input type="file" id="input-username" name="foto_pribadi"
+                    <?php ($stat == 'true') ? 'required' : null ?> class="form-control form-control-alternative">
                 </div>
               </div>
               <div class="col-lg-6">
                 <div class="form-group">
                   <label class="form-control-label" for="input-email">Foto Keluarga</label>
                   <input type="hidden" name="foto_keluarga" required value="<?php echo $foto_keluarga ?>">
-                  <input type="file" id="input-email" name="foto_keluarga" <?php ($stat == 'true') ? 'required' : null ?>
-                    class="form-control form-control-alternative">
+                  <input type="file" id="input-email" name="foto_keluarga"
+                    <?php ($stat == 'true') ? 'required' : null ?> class="form-control form-control-alternative">
                 </div>
               </div>
               <?php if ($stat == 'true') { ?>
-              <div class="text-muted font-italic" id="wrongpass"><small><span
-                    class="text-danger font-weight-700">jika memilih foto baru dan menyimpan foto lama akan
+              <div class="text-muted font-italic" id="wrongpass"><small><span class="text-danger font-weight-700">jika
+                    memilih foto baru dan menyimpan foto lama akan
                     hilang, (tidak perlu memilih foto jika tidak ingin merubah foto)</span></small></div>
               <?php } ?>
             </div>
@@ -200,11 +223,16 @@ $(document).ready(function() {
   const url = '<?php echo base_url(); ?>';
   const id_provinsi = '<?php echo $id_provinsi; ?>';
   const id_kotakab = '<?php echo $id_kotakab; ?>';
+
+  var btn = false;
+  var prov = false;
+
   $('#btn').prop('disabled', true);
 
   $('#opt-propinsi').on('change', '#selectPropinsi', function() {
     $('#opt-kecamatan').html(' - ')
     $('#opt-kelurahan').html(' - ')
+    prov = true;
     var propinsi_id = $(this).val()
     getKabKota(propinsi_id)
   })
@@ -223,17 +251,15 @@ $(document).ready(function() {
       success: function(data) {
         var html = ''
         $.each(data, function(index, value) {
-
           if (value.id_provinsi == id_provinsi) {
             html += '<option value="' + value.id_provinsi + '" selected>' + value.name + '</option>'
           } else {
             html += '<option value="' + value.id_provinsi + '">' + value.name + '</option>'
           }
-
         })
 
         $('#opt-propinsi').html(
-          '<select class="form-control form-control-alternative" name="provinsi" id="selectPropinsi">' +
+          '<select class="form-control form-control-alternative" name="provinsi" id="selectPropinsi" required>' +
           '<option value="null">Pilih</Option>' +
           html +
           '</select>')
@@ -256,7 +282,9 @@ $(document).ready(function() {
       },
       success: function(data) {
         //console.log(data)
-        $('#btn').prop('disabled', false);
+        if (!btn) {
+          $('#btn').prop('disabled', false);
+        }
         var html = ''
         $.each(data, function(index, value) {
           if (value.id_kotakab == id_kotakab) {
@@ -267,8 +295,47 @@ $(document).ready(function() {
         })
 
         $('#opt-kotakab').html(
-          '<select class="form-control form-control-alternative" name="kotakab">' +
+          '<select class="form-control form-control-alternative" name="kotakab" required>' +
           html + '</select>')
+      }
+    })
+  }
+
+  const no_ak_edit = '<?php echo $no_ak; ?>';
+
+  $('#no_ak').on('change', function() {
+    const no_ak = $(this).val();
+    cekNoAk(no_ak);
+  });
+
+  cekNoAk = (noAk) => {
+    $.ajax({
+      type: 'GET',
+      url: url + 'admin/home/cekNoak/' + noAk,
+      dataType: 'JSON',
+      beforeSend: () => {
+        $('#btn').prop('disabled', true);
+      },
+      success: (res) => {
+        if (res.jum == 1) {
+          console.log(no_ak_edit);
+          console.log(res.no_ak);
+          if (no_ak_edit != res.no_ak || no_ak_edit == '') {
+            btn = true;
+            $('#btn').prop('disabled', true);
+            $('#usednoak').show();
+          }else{
+            btn = false;
+            $('#btn').prop('disabled', false);
+            $('#usednoak').hide();
+          }
+        } else {
+          btn = false;
+          $('#usednoak').hide();
+          if (prov) {
+            $('#btn').prop('disabled', false);
+          }
+        }
       }
     })
   }

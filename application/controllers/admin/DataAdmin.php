@@ -18,5 +18,6 @@ class DataAdmin extends CI_Controller {
 
 		$data['admin'] = $this->Model_anantahira->getWhere('admin',array('level_akses' => 'admin' ))->result();
     $this->load->view('backend/data/admin',$data);
-  }
+	}
+	
 }

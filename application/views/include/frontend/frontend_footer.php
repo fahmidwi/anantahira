@@ -30,8 +30,13 @@
                 <h4 class="widget-title">Categories</h4>
                 <!-- List -->
                 <ul class="list">
-                <?php foreach ($cat as $res) { ?>
-                  <li><a href="<?php echo base_url('home/categories/'.str_replace(' ', '-', strtolower($res->nama_kategori))) ?>"><?php echo $res->nama_kategori; ?></a></li>
+                <?php foreach ($data_cat as $res) { ?>
+                  <li><a href="<?php echo base_url('news/categories/'.str_replace(' ', '-', strtolower($res->nama_kategori))) ?>" target="_blank"><?php echo $res->nama_kategori; ?></a></li>
+                <?php } ?>
+                <?php if ($jum_data_cat > 7) { ?>
+                <li><a href="<?php echo base_url('news/morecategories') ?>" target="_blank">More
+                    Categories</a>
+                </li>
                 <?php } ?>
                 </ul>
               </div>
@@ -41,17 +46,11 @@
             <div class="col-12 col-sm-4 col-lg-2">
               <div class="footer-widget-area mt-80">
                 <!-- Title -->
-                <h4 class="widget-title">Featured</h4>
+                <h4 class="widget-title">Type of news</h4>
                 <!-- List -->
                 <ul class="list">
-                  <li><a href="#">Football</a></li>
-                  <li><a href="#">Golf</a></li>
-                  <li><a href="#">Tennis</a></li>
-                  <li><a href="#">Motorsport</a></li>
-                  <li><a href="#">Horseracing</a></li>
-                  <li><a href="#">Equestrian</a></li>
-                  <li><a href="#">Sailing</a></li>
-                  <li><a href="#">Skiing</a></li>
+                  <li><a href="<?php echo base_url('news/nasional') ?>" target="_blank">National</a></li>
+                  <li><a href="<?php echo base_url('news/internasional') ?>" target="_blank">International</a></li>
                 </ul>
               </div>
             </div>
@@ -76,16 +75,10 @@
             <!-- Footer Widget Area -->
             <div class="col-12 col-sm-4 col-lg-2">
               <div class="footer-widget-area mt-80">
-                <!-- Title -->
                 <h4 class="widget-title">+More</h4>
                 <!-- List -->
                 <ul class="list">
-                  <li><a href="#">Fashion</a></li>
-                  <li><a href="#">Design</a></li>
-                  <li><a href="#">Architecture</a></li>
-                  <li><a href="#">Arts</a></li>
-                  <li><a href="#">Autos</a></li>
-                  <li><a href="#">Luxury</a></li>
+                  <li><a href="<?php echo base_url('home/about') ?>" target="_blank">About us</a></li>
                 </ul>
               </div>
             </div>
@@ -101,10 +94,7 @@
               <!-- Copywrite -->
               <p class="text-center">
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>
-                document.write(new Date().getFullYear());
-                </script> All rights reserved | This website is made with <i class="fa fa-heart-o"
-                  aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">fahmidion</a>
+                Copyright &copy; 2019 || All rights reserved
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
               </p>
             </div>
@@ -115,8 +105,6 @@
     <!-- ##### Footer Area Start ##### -->
 
     <!-- ##### All Javascript Files ##### -->
-    <!-- jQuery-2.2.4 js -->
-    <script src="<?php echo base_url('lib/frontend/js/jquery/jquery-2.2.4.min.js') ?>"></script>
     <!-- Popper js -->
     <script src="<?php echo base_url('lib/frontend/js/bootstrap/popper.min.js') ?>"></script>
     <!-- Bootstrap js -->

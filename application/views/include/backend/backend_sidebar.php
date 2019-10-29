@@ -82,40 +82,87 @@
         <!-- Navigation -->
         <ul class="navbar-nav">
           <li class="nav-item  class=" active" ">
-          <a class=" nav-link active " href=" <?php echo base_url('admin/home/') ?>"> <i
-              class="ni ni-tv-2 text-primary"></i> Dashboard
+          <?php 
+            $activeddash = ($this->uri->segment(2) == 'home') ? 'active' : null ; 
+            $textdash = ($this->uri->segment(2) == 'home') ? 'text-primary' : null ; 
+          ?>
+          <a class=" nav-link <?php echo $activeddash; ?>" href=" <?php echo base_url('admin/home/') ?>"> <i
+              class="ni ni-tv-2 <?php echo $textdash; ?>"></i> Dashboard
             </a>
           </li>
-          <?php if ($this->session->userdata('kd_anggota') == 'true' || $this->session->userdata('level_akses') == 'admin') { ?>
+          <?php if ($this->session->userdata('level_akses') == 'admin') { ?>
+          <?php 
+            $activeddash = ($this->uri->segment(2) == 'tentangkami') ? 'active' : null ; 
+            $textdash = ($this->uri->segment(2) == 'tentangkami') ? 'text-primary' : null ; 
+          ?>
+          <a class=" nav-link <?php echo $activeddash; ?>" href=" <?php echo base_url('admin/tentangkami/') ?>"> <i
+              class="ni ni-badge <?php echo $textdash; ?>"></i> Tentang kami
+          </a>
+          </li>
+          <?php } ?>
+          <?php if ($this->session->userdata('kd_anggota') == 'true' && $this->session->userdata('level_akses') == 'anggota' || $this->session->userdata('level_akses') == 'admin') { ?>
+          <?php 
+            $activedang = ($this->uri->segment(2) == 'Keanggotaan') ? 'active' : null ;
+            $textdang = ($this->uri->segment(2) == 'Keanggotaan') ? 'text-primary' : null ; 
+          ?>
           <li class="nav-item">
-            <a class="nav-link " href="<?php echo base_url('admin/Keanggotaan') ?>">
-              <i class="ni ni-single-02"></i> Keanggotaan
+            <a class="nav-link <?php echo $activedang; ?>" href="<?php echo base_url('admin/Keanggotaan') ?>">
+              <i class="ni ni-single-02 <?php echo $textdang; ?>"></i> Keanggotaan
             </a>
           </li>
+          <?php } ?>
+          <?php if($this->session->userdata('level_akses') == 'admin') { ?>
+          <?php 
+            $activenews = ($this->uri->segment(2) == 'berita') ? 'active' : null ;
+            $textnews = ($this->uri->segment(2) == 'berita') ? 'text-primary' : null ; 
+          ?>
           <li class="nav-item">
-            <a class="nav-link " href="<?php echo base_url('admin/berita') ?>">
-              <i class="ni ni-archive-2"></i> Berita
+            <a class="nav-link <?php echo $activenews; ?>" href="<?php echo base_url('admin/berita') ?>">
+              <i class="ni ni-archive-2 <?php echo $textnews; ?>"></i> Berita
+            </a>
+          </li>
+          <?php } ?>
+          <?php 
+            $activegallery = ($this->uri->segment(2) == 'Gallery' || $this->uri->segment(2) == 'gallery') ? 'active' : null ;
+            $textgallery = ($this->uri->segment(2) == 'Gallery' || $this->uri->segment(2) == 'gallery') ? 'text-primary' : null ; 
+          ?>
+          <?php if ($this->session->userdata('kd_anggota') == 'true' && $this->session->userdata('level_akses') == 'anggota' || $this->session->userdata('level_akses') == 'admin') { ?>
+          <li class="nav-item">
+            <a class="nav-link <?php echo $activegallery; ?>" href="<?php echo base_url('admin/gallery') ?>">
+              <i class="ni ni-image <?php echo $textgallery; ?>"></i> Gallery
             </a>
           </li>
           <?php } ?>
           <?php if ($this->session->userdata('level_akses') == 'admin') { ?>
+          <?php 
+            $activekat = ($this->uri->segment(2) == 'KategoriBerita') ? 'active' : null ;
+            $textkat = ($this->uri->segment(2) == 'KategoriBerita') ? 'text-primary' : null ; 
+          ?>
           <li class="nav-item">
-            <a class="nav-link " href="<?php echo base_url('admin/KategoriBerita') ?>">
-              <i class="ni ni-tag"></i> Kategori Berita
+            <a class="nav-link <?php echo $activekat; ?>" href="<?php echo base_url('admin/KategoriBerita') ?>">
+              <i class="ni ni-tag <?php echo $textkat; ?>"></i> Kategori Berita
             </a>
           </li>
+          <?php 
+            $activefun = ($this->uri->segment(2) == 'fungsi') ? 'active' : null ;
+            $textfun = ($this->uri->segment(2) == 'fungsi') ? 'text-primary' : null ; 
+          ?>
           <li class="nav-item">
-            <a class="nav-link " href="<?php echo base_url('admin/fungsi') ?>">
-              <i class="ni ni-settings"></i> Fungsi
+            <a class="nav-link <?php echo $activefun; ?>" href="<?php echo base_url('admin/fungsi') ?>">
+              <i class="ni ni-settings <?php echo $textfun; ?>"></i> Fungsi
             </a>
           </li>
+          <?php 
+            $activeadm = ($this->uri->segment(2) == 'DataAdmin') ? 'active' : null ;
+            $textadm = ($this->uri->segment(2) == 'DataAdmin') ? 'text-primary' : null ; 
+          ?>
           <li class="nav-item">
-            <a class="nav-link " href="<?php echo base_url('admin/DataAdmin') ?>">
-              <i class="ni ni-circle-08"></i> Admin
+            <a class="nav-link <?php echo $activeadm; ?>" href="<?php echo base_url('admin/DataAdmin') ?>">
+              <i class="ni ni-circle-08 <?php echo $textadm; ?>"></i> Admin
             </a>
           </li>
-        </ul>
         <?php } ?>
+        </ul>
         <!-- Divider -->
         <hr class="my-3">
         <ul class="navbar-nav mb-md-3">

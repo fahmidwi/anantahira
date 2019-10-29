@@ -14,7 +14,7 @@
 
       <div class="row">
         <div class="col-12">
-          <h2><u>Tentang Anta Hira</u></h2>
+          <h2><u>Tentang Ananta Hira</u></h2>
         </div>
       </div>
 

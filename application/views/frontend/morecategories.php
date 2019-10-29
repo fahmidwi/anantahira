@@ -4,31 +4,47 @@
 
 <body>
   <!-- ##### Header Area Start ##### -->
-  <?php $this->load->view('include/frontend/frontend_header.php'); ?>
-
+  <?php $this->load->view('include/frontend/frontend_header_news.php'); ?>
   <!-- ##### Header Area End ##### -->
-  <br>
-  <!-- ##### About Area Start ##### -->
-  <section class="about-area">
+
+  <!-- ##### Hero Area Start ##### -->
+  <!-- ##### Hero Area End ##### -->
+  <br><br>
+  <!-- ##### Blog Area Start ##### -->
+  <div class="blog-area section-padding-0-80">
     <div class="container">
-
-      <div class="row">
-        <div class="col-12">
-          <h2><u>Categories News</u></h2>
-        </div>
+      <div class="section-heading">
+        <h6>More categories</h6>
       </div>
+      <div class="row" style="margin-top:-5%">
+        <div class="col-12 col-lg-8">
+          <?php foreach ($cat as $res ) { ?>
+          <a href="<?php echo base_url('news/categories/'.$res->urikategori) ?>"
+            class="badge badge-secondary" style="margin-top:5%;padding:2%;">
+            <h4><?php echo $res->nama_kategori; ?></h4>
+          </a>&nbsp;&nbsp;&nbsp;&nbsp;
+          <?php } ?>
+          <br><br><br><br>
+        </div>
+        <div class="col-12 col-lg-4">
+          <div class="blog-sidebar-area">
 
-      <div class="row">
-      <?php foreach ($cat as $res) { ?>
-        <div class="col-2">
-          <a href="<?php echo base_url('home/categories/'.str_replace(' ', '-', strtolower($res->nama_kategori))) ?>">
-            <div class="section-heading" style="border:none;">
-              <h6><?php echo $res->nama_kategori; ?></h6>
+            <!-- Latest Posts Widget -->
+            <div class="latest-posts-widget mb-50">
+
+              <!-- Single Featured Post -->
+              <?php $this->load->view('frontend/categories') ?>
             </div>
-          </a>
+          </div>
         </div>
-      <?php } ?>
       </div>
+    </div>
+  </div>
+  <!-- ##### Blog Area End ##### -->
+
+  <!-- ##### Footer Area Start ##### -->
+  <?php $this->load->view('include/frontend/frontend_footer.php'); ?>
+
 </body>
 
 </html>

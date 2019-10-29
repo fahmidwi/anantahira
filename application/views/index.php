@@ -40,17 +40,14 @@
             <div class="col-12 col-lg-7">
               <div class="single-blog-post featured-post">
                 <div class="post-thumb">
-                  <?php $judul = strtolower($fresh_berita->headnews);
-                  $judul = preg_replace('/[^A-Za-z0-9]/', '-', $judul);;
-                  ?>
-                  <a href="<?php echo base_url('home/detail_berita/'.$fresh_berita->id_berita.'/'.$judul) ?>">
+                  <a href="<?php echo base_url('news/detail/'.$fresh_berita->id_berita.'/'.$fresh_berita->uriberita) ?>">
                     <img src="<?php echo base_url('assets/img/berita/'.$fresh_berita->gambar_berita) ?>" alt="">
                   </a>
                 </div>
                 <div class="post-data">
-                  <a href="<?php echo base_url('home/categories/'.str_replace(' ', '-', strtolower($fresh_berita->nama_kategori))) ?>"
+                  <a href="<?php echo base_url('news/categories/'.str_replace(' ', '-', strtolower($fresh_berita->nama_kategori))) ?>"
                     class="post-catagory"><?php echo $fresh_berita->nama_kategori; ?></a>
-                  <a href="<?php echo base_url('home/detail_berita/'.$fresh_berita->id_berita.'/'.$judul) ?>"
+                  <a href="<?php echo base_url('news/detail/'.$fresh_berita->id_berita.'/'.$fresh_berita->uriberita) ?>"
                     class="post-title">
                     <h6><?php echo $fresh_berita->headnews; ?></h6>
                   </a>
@@ -64,19 +61,16 @@
             <div class="col-12 col-lg-5">
               <!-- Single Featured Post -->
               <?php foreach ($fresh_berita_2 as $res) { ?>
-              <?php $judul = strtolower($res->headnews);
-                  $judul = preg_replace('/[^A-Za-z0-9]/', '-', $judul);;
-                  ?>
               <div class="single-blog-post featured-post-2">
                 <div class="post-thumb">
-                  <a href="<?php echo base_url('home/detail_berita/'.$res->id_berita.'/'.$judul) ?>"><img
+                  <a href="<?php echo base_url('news/detail/'.$res->id_berita.'/'.$res->uriberita) ?>"><img
                       src="<?php echo base_url('assets/img/berita/'.$res->gambar_berita) ?>" alt=""></a>
                 </div>
                 <div class="post-data">
-                  <a href="<?php echo base_url('home/categories/'.str_replace(' ', '-', strtolower($res->nama_kategori))) ?>"
+                  <a href="<?php echo base_url('news/categories/'.$res->urikategori) ?>"
                     class="post-catagory"><?php echo $res->nama_kategori; ?></a>
                   <div class="post-meta">
-                    <a href="<?php echo base_url('home/detail_berita/'.$res->id_berita.'/'.$judul) ?>"
+                    <a href="<?php echo base_url('news/detail_berita/'.$res->id_berita.'/'.$res->uriberita) ?>"
                       class="post-title">
                       <h6><?php echo $res->headnews; ?></h6>
                     </a>
@@ -89,7 +83,7 @@
         </div>
         <div class="col-12 col-md-6 col-lg-4">
           <div class="section-heading">
-            <h6>Catagories</h6>
+            <h6>Categories</h6>
           </div>
           <?php $this->load->view('frontend/categories') ?>
         </div>
@@ -111,19 +105,16 @@
 
             <!-- Single Post -->
             <?php foreach ($popular_news as $res) { ?>
-            <?php $judul = strtolower($res->headnews);
-                  $judul = preg_replace('/[^A-Za-z0-9]/', '-', $judul);;
-                  ?>
             <div class="col-12 col-md-6">
               <div class="single-blog-post style-3">
                 <div class="post-thumb">
-                  <a href="<?php echo base_url('home/detail_berita/'.$res->id_berita.'/'.$judul) ?>">
+                  <a href="<?php echo base_url('news/detail/'.$res->id_berita.'/'.$res->uriberita) ?>">
                     <img src="<?php echo base_url('assets/img/berita/'.$res->gambar_berita) ?>" alt=""></a>
                 </div>
                 <div class="post-data">
-                  <a href="<?php echo base_url('home/categories/'.str_replace(' ', '-', strtolower($res->nama_kategori))) ?>"
+                  <a href="<?php echo base_url('news/categories/'.$res->urikategori) ?>"
                     class="post-catagory"><?php echo $res->nama_kategori; ?></a>
-                  <a href="<?php echo base_url('home/detail_berita/'.$res->id_berita.'/'.$judul) ?>" class="post-title">
+                  <a href="<?php echo base_url('news/detail/'.$res->id_berita.'/'.$res->uriberita) ?>" class="post-title">
                     <h6><?php echo $res->headnews; ?></h6>
                   </a>
                   <div class="post-meta d-flex align-items-center">
@@ -142,41 +133,7 @@
             <h6>Info</h6>
           </div>
           <!-- Popular News Widget -->
-          <div class="popular-news-widget mb-30">
-            <h3>4 Most Popular News</h3>
-
-            <!-- Single Popular Blog -->
-            <div class="single-popular-post">
-              <a href="#">
-                <h6><span>1.</span> Amet, consectetur adipiscing elit. Nam eu metus sit amet odio sodales.</h6>
-              </a>
-              <p>April 14, 2018</p>
-            </div>
-
-            <!-- Single Popular Blog -->
-            <div class="single-popular-post">
-              <a href="#">
-                <h6><span>2.</span> Consectetur adipiscing elit. Nam eu metus sit amet odio sodales placer.</h6>
-              </a>
-              <p>April 14, 2018</p>
-            </div>
-
-            <!-- Single Popular Blog -->
-            <div class="single-popular-post">
-              <a href="#">
-                <h6><span>3.</span> Adipiscing elit. Nam eu metus sit amet odio sodales placer. Sed varius leo.</h6>
-              </a>
-              <p>April 14, 2018</p>
-            </div>
-
-            <!-- Single Popular Blog -->
-            <div class="single-popular-post">
-              <a href="#">
-                <h6><span>4.</span> Eu metus sit amet odio sodales placer. Sed varius leo ac...</h6>
-              </a>
-              <p>April 14, 2018</p>
-            </div>
-          </div>
+          <?php $this->load->view('frontend/monthpopulars'); ?>
         </div>
       </div>
     </div>
