@@ -15,7 +15,7 @@
         <br><br><br><br><br>
         <div class="text-center">
           <h3>
-            <?php echo ucwords($nama_lengkap) ?><span class="font-weight-light"></span>
+            <?php echo ucwords($nama_lengkap) ?> - <?php echo $no_ak; ?>
           </h3>
           <div class="h5 font-weight-300">
             <i class="ni location_pin mr-2"></i><?php echo $no_hp; ?>

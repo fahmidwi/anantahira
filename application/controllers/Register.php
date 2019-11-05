@@ -23,8 +23,17 @@ class Register extends CI_Controller {
   {
     $secretkey = '6LfQObwUAAAAAHyplLskG0YzZLA9fYGJXi7Kov_z';
     $response = $this->input->post('g-recaptcha-response');
-    $res = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secretkey.'&response='.$response);
-    $res = json_decode($res);
+    $uri = 'https://www.google.com/recaptcha/api/siteverify?secret='.$secretkey.'&response='.$response;
+    
+    $arrContextOptions = array(
+        "ssl" => array(
+            "verify_peer" => false,
+            "verify_peer_name" => false,
+        ),
+    ); 
+
+    $get = file_get_contents($uri,false, stream_context_create($arrContextOptions));
+    $res = json_decode($get);
     if ($res->success) {
       $data = array(
         'nama_lengkap' => $this->input->post('nama_lengkap'),
@@ -53,7 +62,8 @@ class Register extends CI_Controller {
       $this->session->set_userdata($dataSess);
       redirect('admin/home');
     }else{
-      echo 'gagal';
+      $this->session->set_flashdata('Gagal','Terjadi masalah captcha, silahkan coba lagi :)');
+      redirect('register/anggota');
     }
   }
 }

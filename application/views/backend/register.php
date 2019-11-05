@@ -30,6 +30,11 @@
               <div class="text-center text-muted mb-4">
                 <small>Daftar akun anggota anantahira disini</small>
               </div>
+              <?php if ($this->session->flashdata('Gagal')) { ?>
+              <div class="text-muted font-italic"><small><span
+                    class="text-danger font-weight-700"><?php echo $this->session->flashdata('Gagal') ?></span></small><br><br>
+              </div>
+              <?php } ?>
               <form role="form" action="<?php echo base_url('register/prosesRegistrasi') ?>" method="POST">
                 <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>"
                   value="<?=$this->security->get_csrf_hash();?>" style="display: none">
@@ -46,7 +51,8 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" name="email" required onChange="cekEmail()" id="email" placeholder="Email" type="email">
+                    <input class="form-control" name="email" required onChange="cekEmail()" id="email"
+                      placeholder="Email" type="email">
                   </div>
                 </div>
                 <div class="text-muted font-italic" id="emailused" style="display:none;"><small><span
@@ -94,7 +100,7 @@
                 </div>
                 <br>
                 <div class="form-group">
-                  <div class="g-recaptcha" data-sitekey="6LfQObwUAAAAAJwTadQ2w4-ghfhntyB_ozrEKXM8"></div>
+                  <div class="g-recaptcha" data-sitekey="6LfQObwUAAAAAJwTadQ2w4-ghfhntyB_ozrEKXM8" required></div>
                 </div>
 
                 <div class="text-center">
@@ -168,7 +174,7 @@
   cekEmail = () => {
     const email = document.getElementById('email').value;
     const split = email.split('@');
-    uriemail = split[0]+'-'+split[1];
+    uriemail = split[0] + '-' + split[1];
     getEmail(uriemail);
   }
 

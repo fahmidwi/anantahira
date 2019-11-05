@@ -12,7 +12,7 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h2><u>Tentang Anta Hira</u></h2>
+          <h2><u>Tentang Ananta Hira</u></h2>
         </div>
       </div><br>
       <div class="row">
@@ -70,7 +70,7 @@
                   <a href="<?php echo base_url('news/categories/'.$res->urikategori) ?>"
                     class="post-catagory"><?php echo $res->nama_kategori; ?></a>
                   <div class="post-meta">
-                    <a href="<?php echo base_url('news/detail_berita/'.$res->id_berita.'/'.$res->uriberita) ?>"
+                    <a href="<?php echo base_url('news/detail/'.$res->id_berita.'/'.$res->uriberita) ?>"
                       class="post-title">
                       <h6><?php echo $res->headnews; ?></h6>
                     </a>

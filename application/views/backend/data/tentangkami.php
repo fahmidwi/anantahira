@@ -63,18 +63,18 @@
 
 </body>
 <?php $this->load->view('include/backend/backend_js.php'); ?>
-<script>
-CKEDITOR.replace('tentang_kami', {});
-CKEDITOR.config.toolbar = [
-  ['Styles', 'Format', 'Font', 'FontSize'],
-  '/',
-  ['Bold', 'Italic', 'Underline', 'StrikeThrough', '-', 'Undo', 'Redo', '-', 'Cut', 'Copy', 'Paste', 'Find',
-    'Replace', '-', 'Outdent', 'Indent', '-', 'Print'
-  ],
-  '/',
-  ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-  ['Image', 'Table', '-', 'Link', 'Flash', 'Smiley', 'TextColor', 'BGColor', 'Source']
-];
+<script src="<?php echo base_url()?>assets/ckeditor/ckeditor.js"></script>
+
+<script language="javascript">
+	CKEDITOR.replace( 'tentang_kami', {
+	filebrowserBrowseUrl : '<?php echo base_url()?>assets/ckfinder/ckfinder.html',
+	filebrowserImageBrowseUrl : '<?php echo base_url()?>assets/ckfinder/ckfinder.html?type=Images',
+	filebrowserFlashBrowseUrl : '<?php echo base_url()?>assets/ckfinder/ckfinder.html?type=Flash',
+	filebrowserUploadUrl : '<?php echo base_url()?>assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+	filebrowserImageUploadUrl : '<?php echo base_url()?>assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+	filebrowserFlashUploadUrl : '<?php echo base_url()?>assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash',
+	filebrowserWindowWidth : '700',
+	filebrowserWindowHeight : '400'});
 </script>
 
 </html>

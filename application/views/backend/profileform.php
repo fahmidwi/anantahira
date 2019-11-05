@@ -39,7 +39,7 @@
                     <?php
                       $f = '1000';
                       $nofix = $f + $no;
-                      $nofix = '006'.substr($nofix,1,3);   
+                      $nofix = '06.'.substr($nofix,1,3);   
                     ?>
                     <?php if ($no_ak == $nofix) { ?>
                     <option value="<?php echo $nofix; ?>" selected><?php echo $nofix; ?></option>
@@ -122,7 +122,7 @@
               </div>
               <?php if ($stat == 'true') { ?>
               <div class="text-muted font-italic" id="wrongpass"><small><span class="text-danger font-weight-700">jika
-                    memilih foto baru dan menyimpan foto lama akan
+                    memilih foto baru dan menyimpannya, foto lama akan
                     hilang, (tidak perlu memilih foto jika tidak ingin merubah foto)</span></small></div>
               <?php } ?>
             </div>
@@ -282,6 +282,7 @@ $(document).ready(function() {
       },
       success: function(data) {
         //console.log(data)
+
         if (!btn) {
           $('#btn').prop('disabled', false);
         }
@@ -307,6 +308,7 @@ $(document).ready(function() {
     const no_ak = $(this).val();
     cekNoAk(no_ak);
   });
+  var edit = '<?php echo $this->input->get('edit') ?>'
 
   cekNoAk = (noAk) => {
     $.ajax({
@@ -318,22 +320,28 @@ $(document).ready(function() {
       },
       success: (res) => {
         if (res.jum == 1) {
-          console.log(no_ak_edit);
-          console.log(res.no_ak);
           if (no_ak_edit != res.no_ak || no_ak_edit == '') {
             btn = true;
             $('#btn').prop('disabled', true);
             $('#usednoak').show();
-          }else{
+          } else {
             btn = false;
             $('#btn').prop('disabled', false);
             $('#usednoak').hide();
           }
         } else {
-          btn = false;
-          $('#usednoak').hide();
-          if (prov) {
+          console.log(edit);
+          if (edit == 'true') {
+            console.log('ya')
+            btn = true;
             $('#btn').prop('disabled', false);
+          } else {
+            console.log('tidak')
+            btn = false;
+            $('#usednoak').hide();
+            if (prov) {
+              $('#btn').prop('disabled', false);
+            }
           }
         }
       }

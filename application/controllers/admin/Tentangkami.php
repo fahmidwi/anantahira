@@ -34,9 +34,9 @@ class Tentangkami extends CI_Controller {
 
 		if ($this->Model_anantahira->update('tentang_kami',$data,array('id_tentang_kami' => $id))) {
 			$this->session->set_flashdata('success','<strong>Selesai!</strong> Data Anda Berhasil Di perbaharui! <a href="'.base_url('home/about').'" target="_blank"> Cek disini!</a></span>');
-			redirect('admin/Tentangkami');
+			redirect('admin/tentangkami');
 		}else{
-			redirect('admin/Tentangkami');
+			redirect('admin/tentangkami');
 		}
 	}
 }
