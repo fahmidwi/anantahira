@@ -17,11 +17,11 @@ class Gallery extends CI_Controller {
 
     $perpage = 10;
     $data['page'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-
+    
     paginationPage($perpage,'admin/Gallery/index','gallery');
 
     $data['gallery'] = $this->Model_anantahira->getGallery($data['page'],$perpage)->result();
-    //print_r($data['gallery']);die();
+
     $data['pagination'] = $this->pagination->create_links();
     $this->load->view('backend/data/gallery',$data);
   }
